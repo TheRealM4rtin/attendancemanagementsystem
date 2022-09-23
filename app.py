@@ -2,7 +2,6 @@ import tkinter
 import customtkinter as ctk
 from pages import admin_page, user_page, welcome_page
 
-
 # Create a button
 def button_function():
     print("button pressed")
