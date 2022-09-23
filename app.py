@@ -17,6 +17,7 @@ class App(ctk.CTk):
         self.geometry("400x400")
         self.title("Home Page")
 
+
         container = ctk.CTkFrame(self)
         container.grid(row=0, column=0, sticky="nsew")
 
