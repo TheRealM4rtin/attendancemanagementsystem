@@ -6,7 +6,6 @@ from pages import *
 def button_function():
     print("button pressed")
 
-
 class App(ctk.CTk):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
@@ -42,10 +41,6 @@ class App(ctk.CTk):
     def up_frame(self, page_name):
         page = self.frames[page_name]
         page.tkraise()
-
-
-
-
 
 
 

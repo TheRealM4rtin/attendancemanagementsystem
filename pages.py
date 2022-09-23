@@ -1,7 +1,6 @@
 import tkinter
 import customtkinter as ctk
 
-
 class admin_page(ctk.CTkFrame):
     def __init__(self, parent, controller):
         ctk.CTkFrame.__init__(self, parent)
