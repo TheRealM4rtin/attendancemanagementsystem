@@ -1,6 +1,6 @@
 import tkinter
 import customtkinter as ctk
-from pages import admin_page, user_page, welcome_page
+from pages import *
 
 # Create a button
 def button_function():
@@ -42,6 +42,11 @@ class App(ctk.CTk):
     def up_frame(self, page_name):
         page = self.frames[page_name]
         page.tkraise()
+
+
+
+
+
 
 
 # Generate Window
