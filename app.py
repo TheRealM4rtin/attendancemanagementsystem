@@ -42,7 +42,6 @@ class App(ctk.CTk):
         page = self.frames[page_name]
         page.tkraise()
 
-
 # Generate Window
 if __name__ == "__main__":
     app = App()
