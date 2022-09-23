@@ -31,7 +31,7 @@ class App(ctk.CTk):
 
         self.pages = [welcome_page, admin_page, user_page] # List of frames
 
-        for F in self.frames:
+        for F in self.pages:
             frame = F(parent=container, controller=self)  # parent, controller
             frame.grid(row=0, column=0, sticky="nsew")
             self.frames[F] = frame
@@ -41,7 +41,6 @@ class App(ctk.CTk):
     def up_frame(self, page_name):
         page = self.frames[page_name]
         page.tkraise()
-
 
 
 # Generate Window
