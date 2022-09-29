@@ -1,6 +1,7 @@
 import tkinter
 import customtkinter as ctk
 import csv
+import os
 
 
 class admin_page(ctk.CTkFrame):
@@ -37,6 +38,13 @@ class admin_page(ctk.CTkFrame):
 
         # def delete_data():
         #
+
+        # Launch Excel App
+        self.button_excel = ctk.CTkButton(master=self.frame_middle, text="Launch the CSV File", width=20, height=5, command=lambda: launch_excel())
+        self.button_excel.grid(row=2, column=0, padx=10, pady=10)
+
+        def launch_excel():
+            os.system('open -a Microsoft\ Excel.app /Users/martin/PycharmProjects/CentriaPythonProjects/AttendanceManagement/data.csv')
 
 
         # Quit Button
@@ -166,3 +174,5 @@ class welcome_page(ctk.CTkFrame):
         self.button_admin = ctk.CTkButton(master=self.frame_middle, text="Admin",
                                           command=lambda: controller.up_frame(admin_page))
         self.button_admin.grid(row=2, column=1, padx=10, pady=10)
+
+

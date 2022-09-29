@@ -28,9 +28,11 @@ class App(ctk.CTk):
             self.frames[F] = frame
 
         self.up_frame(pages.welcome_page)
+
     def up_frame(self, page_name):
         page = self.frames[page_name]
         page.tkraise()
+
 
 # Generate Window
 if __name__ == "__main__":
