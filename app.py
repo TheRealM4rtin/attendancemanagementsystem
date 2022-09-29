@@ -10,7 +10,7 @@ class App(ctk.CTk):
         ctk.set_appearance_mode("System")  # Modes: system (default), light, dark
         ctk.set_default_color_theme("blue")  # Themes: blue (default), dark-blue, green
         self.geometry("400x400")
-        self.title("Home Page")
+        self.title("Attendance Management System")
 
         container = ctk.CTkFrame(self)
         container.grid(row=0, column=0, sticky="nsew")

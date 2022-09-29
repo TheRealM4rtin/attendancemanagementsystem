@@ -2,6 +2,7 @@ import tkinter
 import customtkinter as ctk
 import csv
 import os
+from tkcalendar import Calendar, DateEntry
 
 
 class admin_page(ctk.CTkFrame):
@@ -27,6 +28,8 @@ class admin_page(ctk.CTkFrame):
         self.frame_middle.rowconfigure(0, weight=1)
         self.frame_middle.rowconfigure(1, weight=1)
         self.frame_middle.rowconfigure(2, weight=1)
+        self.frame_middle.rowconfigure(3, weight=1)
+        self.frame_middle.rowconfigure(4, weight=1)
         self.frame_bottom.rowconfigure(0, weight=1)
 
         # Text
@@ -35,17 +38,93 @@ class admin_page(ctk.CTkFrame):
                                          height=25)
         self.label_header.grid(row=0, column=0, columnspan=2, padx=10, pady=10)
 
-
-        # def delete_data():
-        #
-
-        # Launch Excel App
-        self.button_excel = ctk.CTkButton(master=self.frame_middle, text="Launch the CSV File", width=20, height=5, command=lambda: launch_excel())
-        self.button_excel.grid(row=2, column=0, padx=10, pady=10)
+        # Button Launch Excel
+        self.button_launch_excel = ctk.CTkButton(master=self.frame_middle, text="Launch the Original Excel", width=20,
+                                                 height=5, command=lambda: launch_excel())
+        self.button_launch_excel.grid(row=0, columnspan=3, padx=10, pady=10)
 
         def launch_excel():
-            os.system('open -a Microsoft\ Excel.app /Users/martin/PycharmProjects/CentriaPythonProjects/AttendanceManagement/data.csv')
+            os.system('open -a Microsoft\ Excel.app /Users/martin/PycharmProjects/CentriaPythonProjects'
+                        '/AttendanceManagement/data.csv')
 
+        # Save entry data
+        self.button_excel = ctk.CTkButton(master=self.frame_middle, text="Save Data", width=20, height=5,
+                                          command=lambda: save())
+        self.button_excel.grid(row=4, columnspan=3, padx=20, pady=20)
+
+        # Select Date Label
+        self.string_select_date = tkinter.StringVar(value="Or please Select a Date:")
+        self.label_select_date = ctk.CTkLabel(master=self.frame_middle, textvariable=self.string_select_date, width=20)
+        self.label_select_date.grid(row=1, column=0, columnspan=2, padx=10, pady=10)
+
+        # Label Date Entry
+        self.string_date = tkinter.StringVar(value="Begin Date")
+        self.label_date = ctk.CTkLabel(master=self.frame_middle, textvariable=self.string_date, width=20, height=5)
+        self.label_date.grid(row=2, column=0, padx=3, pady=3)
+
+        # Label Date Entry 2
+        self.string_date = tkinter.StringVar(value="End Date")
+        self.label_date = ctk.CTkLabel(master=self.frame_middle, textvariable=self.string_date, width=20, height=5)
+        self.label_date.grid(row=2, column=1, padx=3, pady=3)
+
+        # Date Entry 1
+        self.date_entry = DateEntry(master=self.frame_middle, text='Choose a Date', width=12)
+        self.date_entry.grid(row=3, column=0, padx=10, pady=10)
+
+        # Date Entry 2
+        self.date_entry2 = DateEntry(master=self.frame_middle, text='Choose a Date', width=12)
+        self.date_entry2.grid(row=3, column=1, padx=10, pady=10)
+
+        # Save function
+        def save():
+            begin = self.date_entry.get_date()
+            end = self.date_entry2.get_date()
+            # os.system('open -a Microsoft\ Excel.app /Users/martin/PycharmProjects/CentriaPythonProjects'
+            #             '/AttendanceManagement/data.csv')
+
+            # Create Top Level Window
+            self.popup = tkinter.Toplevel()
+            self.popup.title("DONE")
+            self.popup.geometry("300x200")
+
+            self.popup_top = ctk.CTkFrame(self.popup, bg="blue")
+            self.popup_middle = ctk.CTkFrame(self.popup, bg="blue")
+
+            self.popup_top.grid(row=0, column=0, sticky="nsew")
+            self.popup_middle.grid(row=1, column=0, sticky="nsew")
+
+            self.popup_top.columnconfigure(0, weight=1)
+            self.popup_top.columnconfigure(1, weight=1)
+            self.popup_top.columnconfigure(2, weight=1)
+            self.popup_middle.columnconfigure(0, weight=1)
+            self.popup_middle.columnconfigure(1, weight=1)
+            self.popup_middle.columnconfigure(2, weight=1)
+            self.popup_middle.columnconfigure(3, weight=1)
+            self.popup_middle.columnconfigure(4, weight=1)
+
+            self.popup_top.rowconfigure(0, weight=1)
+            self.popup_middle.rowconfigure(0, weight=1)
+            self.popup_middle.rowconfigure(1, weight=1)
+
+            self.string_done = tkinter.StringVar(value="Done! Your CSV file has been saved!")
+            self.label_done = ctk.CTkLabel(master=self.popup_top, textvariable=self.string_done, width=20, height=5)
+            self.label_done.grid(row=0, column=1, padx=5, pady=5)
+
+            # Label Ask
+            self.string_ask = tkinter.StringVar(value="Would you like to open the file?")
+            self.label_ask = ctk.CTkLabel(master=self.popup_middle, textvariable=self.string_ask, width=20, height=5)
+            self.label_ask.grid(row=0, column=1, columnspan=5, padx=5, pady=5)
+            # Button Yes and No
+            self.button = ctk.CTkButton(self.popup_middle, text="Yes", width=20, height=5, command=lambda: answer_yes())
+            self.button.grid(row=1, column=1, padx=20, pady=10)
+            self.button = ctk.CTkButton(self.popup_middle, text="No", width=20, height=5,
+                                        command=lambda: self.popup.destroy())
+            self.button.grid(row=1, column=3, padx=20, pady=10)
+
+            def answer_yes():
+                os.system('open -a Microsoft\ Excel.app /Users/martin/PycharmProjects/CentriaPythonProjects'
+                          '/AttendanceManagement/data.csv')
+                self.popup.destroy()
 
         # Quit Button
         self.button_quit = ctk.CTkButton(master=self.frame_bottom, text="Quit",
@@ -77,6 +156,8 @@ class user_page(ctk.CTkFrame):
         self.frame_middle.rowconfigure(1, weight=1)
         self.frame_middle.rowconfigure(2, weight=1)
         self.frame_middle.rowconfigure(3, weight=1)
+        self.frame_middle.rowconfigure(4, weight=1)
+        self.frame_middle.rowconfigure(5, weight=1)
         self.frame_bottom.rowconfigure(0, weight=1)
 
         # Text
@@ -102,7 +183,14 @@ class user_page(ctk.CTkFrame):
                                    variable=status_var)
         combobox.grid(row=2, column=0, columnspan=2, padx=10, pady=10)
 
+        # Label Date Entry
+        self.string_select_date = tkinter.StringVar(value="Please Select a Date")
+        self.label_select_date = ctk.CTkLabel(master=self.frame_middle, textvariable=self.string_select_date, width=2)
+        self.label_select_date.grid(row=3, column=0, padx=1, pady=1)
 
+        # Entry Date
+        self.date_entry = DateEntry(master=self.frame_middle, text='Choose a Date', width=12)
+        self.date_entry.grid(row=3, column=1, padx=1, pady=1)
 
         # Check Box
         checkbox_var = tkinter.StringVar(self.frame_middle, "Disagree")
@@ -111,11 +199,11 @@ class user_page(ctk.CTkFrame):
                                    text="I certify on my honour that the above information are "
                                         "correct.",
                                    variable=checkbox_var, onvalue="Agree", offvalue="Disagree")
-        checkbox.grid(row=3, column=0, columnspan=2, padx=10, pady=10)
+        checkbox.grid(row=5, column=0, padx=10, pady=10)
 
         def save_data():
             f = open('data.csv', 'a', newline='')
-            var = (entry.get(), status_var.get(), checkbox_var.get())
+            var = (entry.get(), status_var.get(), checkbox_var.get(), self.date_entry.get_date())
             writer = csv.writer(f)
             writer.writerow(var)
             print("SUBMITTED")
@@ -175,4 +263,6 @@ class welcome_page(ctk.CTkFrame):
                                           command=lambda: controller.up_frame(admin_page))
         self.button_admin.grid(row=2, column=1, padx=10, pady=10)
 
-
+        # Quit Button
+        self.button_quit = ctk.CTkButton(master=self.frame_bottom, text="Quit", command=lambda: controller.quit())
+        self.button_quit.grid(row=0, column=0, padx=10, pady=10)
