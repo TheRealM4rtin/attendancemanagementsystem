@@ -83,8 +83,13 @@ class admin_page(ctk.CTkFrame):
             end = self.date_entry2.get_date()
 
             # Read the csv file
-            df = pd.read_csv('data.csv', sep=",", header=None)
+            df = pd.read_csv('data.csv', lineterminator='\n', index_col=0, header=None, sep=',')
 
+            # Filter the data
+            new = df[(df['Date'] >= begin) & (df['Date'] <= end)]
+
+            # Save the data
+            new.to_csv('neww.csv')
 
             # Create Top Level Window
             self.popup = tkinter.Toplevel()
@@ -206,15 +211,10 @@ class user_page(ctk.CTkFrame):
         checkbox.grid(row=5, column=0, padx=10, pady=10)
 
         def save_data():
-            #f = open('data.csv', 'a', newline='')
             var = (entry.get(), status_var.get(), checkbox_var.get(), self.date_entry.get_date())
-            #writer = csv.writer(f)
-            #writer.writerow(var)
             dataframe = pd.DataFrame([var], columns=['Name', 'Status', 'Agree', 'Date'])
-            dataframe.to_csv('data.csv', mode='a', header=False, index=False)
-
+            dataframe.to_csv('data.csv', mode='a')
             print("SUBMITTED")
-            #f.close()
 
         # Submit Button
         self.button_submit = ctk.CTkButton(master=self.frame_bottom, text="Submit", command=save_data)
