@@ -3,6 +3,8 @@ import customtkinter as ctk
 import csv
 import os
 from tkcalendar import Calendar, DateEntry
+import pandas as pd
+import numpy as np
 
 
 class admin_page(ctk.CTkFrame):
@@ -79,8 +81,10 @@ class admin_page(ctk.CTkFrame):
         def save():
             begin = self.date_entry.get_date()
             end = self.date_entry2.get_date()
-            # os.system('open -a Microsoft\ Excel.app /Users/martin/PycharmProjects/CentriaPythonProjects'
-            #             '/AttendanceManagement/data.csv')
+
+            # Read the csv file
+            df = pd.read_csv('data.csv', sep=",", header=None)
+
 
             # Create Top Level Window
             self.popup = tkinter.Toplevel()
@@ -202,12 +206,15 @@ class user_page(ctk.CTkFrame):
         checkbox.grid(row=5, column=0, padx=10, pady=10)
 
         def save_data():
-            f = open('data.csv', 'a', newline='')
+            #f = open('data.csv', 'a', newline='')
             var = (entry.get(), status_var.get(), checkbox_var.get(), self.date_entry.get_date())
-            writer = csv.writer(f)
-            writer.writerow(var)
+            #writer = csv.writer(f)
+            #writer.writerow(var)
+            dataframe = pd.DataFrame([var], columns=['Name', 'Status', 'Agree', 'Date'])
+            dataframe.to_csv('data.csv', mode='a', header=False, index=False)
+
             print("SUBMITTED")
-            f.close()
+            #f.close()
 
         # Submit Button
         self.button_submit = ctk.CTkButton(master=self.frame_bottom, text="Submit", command=save_data)
