@@ -12,8 +12,13 @@ class App(ctk.CTk):
         self.geometry("400x400")
         self.title("Attendance Management System")
 
+        self.columnconfigure(0, weight=1)
+        self.rowconfigure(0, weight=1)
+
         container = ctk.CTkFrame(self)
         container.grid(row=0, column=0, sticky="nsew")
+        container.columnconfigure(0, weight=1)
+        container.rowconfigure(0, weight=1)
 
         self.id = ctk.StringVar()
         self.id.set("welcome_page")
@@ -25,6 +30,8 @@ class App(ctk.CTk):
         for F in self.p:
             frame = F(parent=container, controller=self)  # parent, controller
             frame.grid(row=0, column=0, sticky="nsew")
+            frame.columnconfigure(0, weight=1)
+            frame.rowconfigure(0, weight=1)
             self.frames[F] = frame
 
         self.up_frame(pages.welcome_page)

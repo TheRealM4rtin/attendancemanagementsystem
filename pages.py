@@ -6,8 +6,8 @@ from tkcalendar import Calendar, DateEntry
 
 
 class admin_page(ctk.CTkFrame):
-    def __init__(self, parent, controller):
-        ctk.CTkFrame.__init__(self, parent)
+    def __init__(self, *args, parent, controller, **kwargs):
+        super().__init__(*args, **kwargs)
 
         # Horizontal Frames
         self.frame_top = ctk.CTkFrame(self, bg="blue")
@@ -133,8 +133,8 @@ class admin_page(ctk.CTkFrame):
 
 
 class user_page(ctk.CTkFrame):
-    def __init__(self, parent, controller):
-        ctk.CTkFrame.__init__(self, parent)
+    def __init__(self, *args, parent, controller, **kwargs):
+        super().__init__(*args, **kwargs)
 
         # Horizontal Frames
         self.frame_top = ctk.CTkFrame(self, bg="blue")
@@ -221,48 +221,30 @@ class user_page(ctk.CTkFrame):
 
 
 class welcome_page(ctk.CTkFrame):
-    def __init__(self, parent, controller):
-        ctk.CTkFrame.__init__(self, parent)
+    def __init__(self, *args, parent, controller, **kwargs):
+        super().__init__(*args, **kwargs)
         self.controller = controller
         self.id = controller.id
 
-        # Horizontal Frames
-        self.frame_top = ctk.CTkFrame(self, bg="blue")
-        self.frame_middle = ctk.CTkFrame(self, bg="blue")
-        self.frame_bottom = ctk.CTkFrame(self, bg="blue")
-        # Grid Frames
-        self.frame_top.grid(row=0, column=0, sticky="nsew")
-        self.frame_middle.grid(row=1, column=0, sticky="nsew")
-        self.frame_bottom.grid(row=2, column=0, sticky="nsew")
-        # Column config
-        self.frame_top.columnconfigure(0, weight=1)
-        self.frame_middle.columnconfigure(0, weight=1)
-        self.frame_middle.columnconfigure(1, weight=1)
-        self.frame_middle.columnconfigure(2, weight=1)
-        self.frame_bottom.columnconfigure(0, weight=1)
-        # Row Config
-        self.frame_top.rowconfigure(0, weight=1)
-        self.frame_middle.rowconfigure(0, weight=1)
-        self.frame_middle.rowconfigure(1, weight=1)
-        self.frame_middle.rowconfigure(2, weight=1)
-        self.frame_bottom.rowconfigure(0, weight=1)
+        self.frame = ctk.CTkFrame(self, bg="blue")
+        self.frame.grid(row=0, column=0, sticky="nsew")
+        self.frame.columnconfigure(0, weight=1)
 
         # Text Welcome
         self.string_wlcm = tkinter.StringVar(value="Welcome to the Assessment Management System")
-        self.label_wlcm = ctk.CTkLabel(master=self.frame_top, textvariable=self.string_wlcm, width=120,
-                                       height=25)
-        self.label_wlcm.grid(row=0, column=0, columnspan=2, padx=10, pady=10)
+        self.label_wlcm = ctk.CTkLabel(master=self.frame, textvariable=self.string_wlcm)
+        self.label_wlcm.grid(row=0, column=0, rowspan=2, padx=10, pady=10)
 
         # Button User
-        self.button_user = ctk.CTkButton(master=self.frame_middle, text="User",
+        self.button_user = ctk.CTkButton(master=self.frame, text="User",
                                          command=lambda: controller.up_frame(user_page))
-        self.button_user.grid(row=1, column=1, padx=10, pady=10)
+        self.button_user.grid(row=2, column=0, padx=10, pady=10)
 
         # Button Admin
-        self.button_admin = ctk.CTkButton(master=self.frame_middle, text="Admin",
+        self.button_admin = ctk.CTkButton(master=self.frame, text="Admin",
                                           command=lambda: controller.up_frame(admin_page))
-        self.button_admin.grid(row=2, column=1, padx=10, pady=10)
+        self.button_admin.grid(row=3, column=0, padx=10, pady=10)
 
         # Quit Button
-        self.button_quit = ctk.CTkButton(master=self.frame_bottom, text="Quit", command=lambda: controller.quit())
-        self.button_quit.grid(row=0, column=0, padx=10, pady=10)
+        self.button_quit = ctk.CTkButton(master=self.frame, text="Quit", command=lambda: controller.quit())
+        self.button_quit.grid(row=4, column=0, padx=10, pady=10)
