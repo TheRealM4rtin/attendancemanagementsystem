@@ -5,6 +5,7 @@ import os
 from tkcalendar import Calendar, DateEntry
 import pandas as pd
 import numpy as np
+from datetime import datetime, date
 
 
 class admin_page(ctk.CTkFrame):
@@ -83,20 +84,30 @@ class admin_page(ctk.CTkFrame):
             end = self.date_entry2.get_date()
 
             print(begin)
-            print(end)
+            print(type(begin))
+
             # Read the csv file
             df = pd.read_csv('data.csv', lineterminator='\n', on_bad_lines='skip', sep=',', header=None)
-            print(df)
-
 
             # Convert the date column to datetime
-            df[3] = pd.to_datetime(df[3])
+            # df[3] = pd.to_datetime(df[3])
+            # df[3].map(datetime.date)
 
-            # Filter the data
-            new = df[(df[3] >= begin) & (df[3] <= end)]
+            df[3] = df[3].apply(lambda x: x.datetime.strptime('%Y-%m-%d'))
 
+            # Print type of the date column
+            print(df[3].dtypes)
+
+            # # Filter the data
+            # new = df[(df[3] >= begin) & (df[3] <= end)]
+
+            # df = df.loc[(df[3] >= begin) & (df[3] <= end)]
+
+            df = df.loc[begin:end]
+
+            print(df)
             # Save the data
-            new.to_csv('neww.csv')
+            df.to_csv('neww.csv')
 
             # Create Top Level Window
             self.popup = tkinter.Toplevel()
