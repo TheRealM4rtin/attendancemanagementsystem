@@ -88,6 +88,7 @@ class admin_page(ctk.CTkFrame):
             df = pd.read_csv('data.csv', lineterminator='\n', on_bad_lines='skip', sep=',', header=None)
             print(df)
 
+
             # Convert the date column to datetime
             df[3] = pd.to_datetime(df[3])
 
