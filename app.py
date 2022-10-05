@@ -9,7 +9,7 @@ class App(ctk.CTk):
 
         ctk.set_appearance_mode("System")  # Modes: system (default), light, dark
         ctk.set_default_color_theme("blue")  # Themes: blue (default), dark-blue, green
-        self.geometry("400x400")
+        self.geometry("390x240")
         self.title("Attendance Management System")
 
         self.columnconfigure(0, weight=1)

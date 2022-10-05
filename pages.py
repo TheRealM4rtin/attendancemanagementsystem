@@ -102,47 +102,55 @@ class admin_page(ctk.CTkFrame):
 
             # Create Top Level Window
             self.popup = tkinter.Toplevel()
-            self.popup.title("DONE")
-            self.popup.geometry("300x200")
+            self.popup.title("Done! Your CSV file has been saved!")
+            self.popup.geometry("350x150")
+            self.popup.columnconfigure(0, weight=1)
+            self.popup.rowconfigure(0, weight=1)
 
-            self.popup_top = ctk.CTkFrame(self.popup, bg="blue")
-            self.popup_middle = ctk.CTkFrame(self.popup, bg="blue")
+            # self.popup_top = ctk.CTkFrame(self.popup, bg="blue")
+            # self.popup_middle = ctk.CTkFrame(self.popup, bg="blue")
+            #
+            # self.popup_top.grid(row=0, column=0, sticky="nsew")
+            # self.popup_middle.grid(row=1, column=0, sticky="nsew")
+            #
+            # self.popup_top.columnconfigure(0, weight=1)
+            # self.popup_top.columnconfigure(1, weight=1)
+            # self.popup_top.columnconfigure(2, weight=1)
+            # self.popup_middle.columnconfigure(0, weight=1)
+            # self.popup_middle.columnconfigure(1, weight=1)
+            # self.popup_middle.columnconfigure(2, weight=1)
+            # self.popup_middle.columnconfigure(3, weight=1)
+            # self.popup_middle.columnconfigure(4, weight=1)
+            #
+            # self.popup_top.rowconfigure(0, weight=1)
+            # self.popup_middle.rowconfigure(0, weight=1)
+            # self.popup_middle.rowconfigure(1, weight=1)
 
-            self.popup_top.grid(row=0, column=0, sticky="nsew")
-            self.popup_middle.grid(row=1, column=0, sticky="nsew")
+            # container = ctk.CTkFrame(self.popup, bg="blue")
+            # container.grid(row=0, column=0, sticky="nsew")
+            # container.columnconfigure(0, weight=1)
+            # container.rowconfigure(0, weight=1)
 
-            self.popup_top.columnconfigure(0, weight=1)
-            self.popup_top.columnconfigure(1, weight=1)
-            self.popup_top.columnconfigure(2, weight=1)
-            self.popup_middle.columnconfigure(0, weight=1)
-            self.popup_middle.columnconfigure(1, weight=1)
-            self.popup_middle.columnconfigure(2, weight=1)
-            self.popup_middle.columnconfigure(3, weight=1)
-            self.popup_middle.columnconfigure(4, weight=1)
-
-            self.popup_top.rowconfigure(0, weight=1)
-            self.popup_middle.rowconfigure(0, weight=1)
-            self.popup_middle.rowconfigure(1, weight=1)
-
-            self.string_done = tkinter.StringVar(value="Done! Your CSV file has been saved!")
-            self.label_done = ctk.CTkLabel(master=self.popup_top, textvariable=self.string_done, width=20, height=5)
-            self.label_done.grid(row=0, column=1, padx=5, pady=5)
+            # self.string_done = tkinter.StringVar(value="Done! Your CSV file has been saved!")
+            # self.label_done = ctk.CTkLabel(master=self.popup, textvariable=self.string_done, width=20, height=5)
+            # self.label_done.grid(row=0, column=0, padx=5, pady=5)
 
             # Label Ask
             self.string_ask = tkinter.StringVar(value="Would you like to open the file?")
-            self.label_ask = ctk.CTkLabel(master=self.popup_middle, textvariable=self.string_ask, width=20, height=5)
-            self.label_ask.grid(row=0, column=1, columnspan=5, padx=5, pady=5)
+            self.label_ask = ctk.CTkLabel(master=self.popup, textvariable=self.string_ask, width=20, height=5)
+            self.label_ask.grid(row=0, rowspan=2,column=0, padx=5, pady=5)
+
             # Button Yes and No
-            self.button = ctk.CTkButton(self.popup_middle, text="Yes", width=20, height=5, command=lambda: answer_yes())
-            self.button.grid(row=1, column=1, padx=20, pady=10)
-            self.button = ctk.CTkButton(self.popup_middle, text="No", width=20, height=5,
-                                        command=lambda: self.popup.destroy())
-            self.button.grid(row=1, column=3, padx=20, pady=10)
+            self.button = ctk.CTkButton(self.popup, text="Yes", width=20, height=5, command=lambda: answer_yes())
+            self.button.grid(row=2, column=0, padx=20, pady=10)
+            self.button = ctk.CTkButton(self.popup, text="No", width=20, height=5,
+                                        command=lambda: self.popup.quit())
+            self.button.grid(row=3, column=0, padx=20, pady=10)
 
             def answer_yes():
                 os.system('open -a Microsoft\ Excel.app /Users/martin/PycharmProjects/CentriaPythonProjects'
                           '/AttendanceManagement/new.csv')
-                self.popup.destroy()
+                self.popup.quit() #destroy()
 
         # Quit Button
         self.button_quit = ctk.CTkButton(master=self.frame_bottom, text="Quit",
