@@ -82,11 +82,17 @@ class admin_page(ctk.CTkFrame):
             begin = self.date_entry.get_date()
             end = self.date_entry2.get_date()
 
+            print(begin)
+            print(end)
             # Read the csv file
-            df = pd.read_csv('data.csv', lineterminator='\n', index_col=0, header=None, sep=',')
+            df = pd.read_csv('data.csv', lineterminator='\n', on_bad_lines='skip', sep=',', header=None)
+            print(df)
+
+            # Convert the date column to datetime
+            df[3] = pd.to_datetime(df[3])
 
             # Filter the data
-            new = df[(df['Date'] >= begin) & (df['Date'] <= end)]
+            new = df[(df[3] >= begin) & (df[3] <= end)]
 
             # Save the data
             new.to_csv('neww.csv')
@@ -212,8 +218,9 @@ class user_page(ctk.CTkFrame):
 
         def save_data():
             var = (entry.get(), status_var.get(), checkbox_var.get(), self.date_entry.get_date())
-            dataframe = pd.DataFrame([var], columns=['Name', 'Status', 'Agree', 'Date'])
-            dataframe.to_csv('data.csv', mode='a')
+            dataframe = pd.DataFrame([var], columns=['Name', 'Status', 'Agree', 'Date'] )
+            dataframe.to_csv('data.csv', header=None, index=False, mode='a')
+            print(dataframe)
             print("SUBMITTED")
 
         # Submit Button
