@@ -89,25 +89,16 @@ class admin_page(ctk.CTkFrame):
             # Read the csv file
             df = pd.read_csv('data.csv', lineterminator='\n', on_bad_lines='skip', sep=',', header=None)
 
-            # Convert the date column to datetime
-            # df[3] = pd.to_datetime(df[3])
-            # df[3].map(datetime.date)
-
-            df[3] = df[3].apply(lambda x: x.datetime.strptime('%Y-%m-%d'))
-
             # Print type of the date column
             print(df[3].dtypes)
 
-            # # Filter the data
-            # new = df[(df[3] >= begin) & (df[3] <= end)]
+            # Convert the date column to datetime
+            beginstr = begin.strftime('%Y-%m-%d')
+            endstr = end.strftime('%Y-%m-%d')
+            df = df[(df[3] >= beginstr) & (df[3] <= endstr)]
 
-            # df = df.loc[(df[3] >= begin) & (df[3] <= end)]
-
-            df = df.loc[begin:end]
-
-            print(df)
             # Save the data
-            df.to_csv('neww.csv')
+            df.to_csv('new.csv', header=False, index=False)
 
             # Create Top Level Window
             self.popup = tkinter.Toplevel()
@@ -150,7 +141,7 @@ class admin_page(ctk.CTkFrame):
 
             def answer_yes():
                 os.system('open -a Microsoft\ Excel.app /Users/martin/PycharmProjects/CentriaPythonProjects'
-                          '/AttendanceManagement/data.csv')
+                          '/AttendanceManagement/new.csv')
                 self.popup.destroy()
 
         # Quit Button
