@@ -1,11 +1,8 @@
 import tkinter
 import customtkinter as ctk
-import csv
 import os
-from tkcalendar import Calendar, DateEntry
+from tkcalendar import DateEntry
 import pandas as pd
-import numpy as np
-from datetime import datetime, date
 
 
 class admin_page(ctk.CTkFrame):
@@ -48,12 +45,7 @@ class admin_page(ctk.CTkFrame):
 
         def launch_excel():
             os.system('open -a Microsoft\ Excel.app /Users/martin/PycharmProjects/CentriaPythonProjects'
-                        '/AttendanceManagement/data.csv')
-
-        # Save entry data
-        self.button_excel = ctk.CTkButton(master=self.frame_middle, text="Save Data", width=20, height=5,
-                                          command=lambda: save())
-        self.button_excel.grid(row=4, columnspan=3, padx=20, pady=20)
+                      '/AttendanceManagement/data.csv')
 
         # Select Date Label
         self.string_select_date = tkinter.StringVar(value="Or please Select a Date:")
@@ -71,30 +63,37 @@ class admin_page(ctk.CTkFrame):
         self.label_date.grid(row=2, column=1, padx=3, pady=3)
 
         # Date Entry 1
-        self.date_entry = DateEntry(master=self.frame_middle, text='Choose a Date', width=12)
+        self.date_entry = DateEntry(master=self.frame_middle, width=12)
         self.date_entry.grid(row=3, column=0, padx=10, pady=10)
 
         # Date Entry 2
-        self.date_entry2 = DateEntry(master=self.frame_middle, text='Choose a Date', width=12)
+        self.date_entry2 = DateEntry(master=self.frame_middle, width=12)
         self.date_entry2.grid(row=3, column=1, padx=10, pady=10)
+
+        # Save entry data
+        self.button_excel = ctk.CTkButton(master=self.frame_middle, text="Save Data", width=20, height=5,
+                                          command=lambda: save())
+        self.button_excel.grid(row=4, columnspan=3, padx=20, pady=20)
 
         # Save function
         def save():
             begin = self.date_entry.get_date()
             end = self.date_entry2.get_date()
 
-            print(begin)
-            print(type(begin))
+            # Print the date and its type
+            # print(begin)
+            # print(type(begin))
 
             # Read the csv file
             df = pd.read_csv('data.csv', lineterminator='\n', on_bad_lines='skip', sep=',', header=None)
 
             # Print type of the date column
-            print(df[3].dtypes)
+            # print(df[3].dtypes)
 
             # Convert the date column to datetime
             beginstr = begin.strftime('%Y-%m-%d')
             endstr = end.strftime('%Y-%m-%d')
+
             df = df[(df[3] >= beginstr) & (df[3] <= endstr)]
 
             # Save the data
@@ -107,38 +106,10 @@ class admin_page(ctk.CTkFrame):
             self.popup.columnconfigure(0, weight=1)
             self.popup.rowconfigure(0, weight=1)
 
-            # self.popup_top = ctk.CTkFrame(self.popup, bg="blue")
-            # self.popup_middle = ctk.CTkFrame(self.popup, bg="blue")
-            #
-            # self.popup_top.grid(row=0, column=0, sticky="nsew")
-            # self.popup_middle.grid(row=1, column=0, sticky="nsew")
-            #
-            # self.popup_top.columnconfigure(0, weight=1)
-            # self.popup_top.columnconfigure(1, weight=1)
-            # self.popup_top.columnconfigure(2, weight=1)
-            # self.popup_middle.columnconfigure(0, weight=1)
-            # self.popup_middle.columnconfigure(1, weight=1)
-            # self.popup_middle.columnconfigure(2, weight=1)
-            # self.popup_middle.columnconfigure(3, weight=1)
-            # self.popup_middle.columnconfigure(4, weight=1)
-            #
-            # self.popup_top.rowconfigure(0, weight=1)
-            # self.popup_middle.rowconfigure(0, weight=1)
-            # self.popup_middle.rowconfigure(1, weight=1)
-
-            # container = ctk.CTkFrame(self.popup, bg="blue")
-            # container.grid(row=0, column=0, sticky="nsew")
-            # container.columnconfigure(0, weight=1)
-            # container.rowconfigure(0, weight=1)
-
-            # self.string_done = tkinter.StringVar(value="Done! Your CSV file has been saved!")
-            # self.label_done = ctk.CTkLabel(master=self.popup, textvariable=self.string_done, width=20, height=5)
-            # self.label_done.grid(row=0, column=0, padx=5, pady=5)
-
             # Label Ask
             self.string_ask = tkinter.StringVar(value="Would you like to open the file?")
             self.label_ask = ctk.CTkLabel(master=self.popup, textvariable=self.string_ask, width=20, height=5)
-            self.label_ask.grid(row=0, rowspan=2,column=0, padx=5, pady=5)
+            self.label_ask.grid(row=0, rowspan=2, column=0, padx=5, pady=5)
 
             # Button Yes and No
             self.button = ctk.CTkButton(self.popup, text="Yes", width=20, height=5, command=lambda: answer_yes())
@@ -150,7 +121,7 @@ class admin_page(ctk.CTkFrame):
             def answer_yes():
                 os.system('open -a Microsoft\ Excel.app /Users/martin/PycharmProjects/CentriaPythonProjects'
                           '/AttendanceManagement/new.csv')
-                self.popup.quit() #destroy()
+                self.popup.quit()  # destroy()
 
         # Quit Button
         self.button_quit = ctk.CTkButton(master=self.frame_bottom, text="Quit",
@@ -215,7 +186,7 @@ class user_page(ctk.CTkFrame):
         self.label_select_date.grid(row=3, column=0, padx=1, pady=1)
 
         # Entry Date
-        self.date_entry = DateEntry(master=self.frame_middle, text='Choose a Date', width=12)
+        self.date_entry = DateEntry(master=self.frame_middle, width=12)
         self.date_entry.grid(row=3, column=1, padx=1, pady=1)
 
         # Check Box
@@ -229,7 +200,7 @@ class user_page(ctk.CTkFrame):
 
         def save_data():
             var = (entry.get(), status_var.get(), checkbox_var.get(), self.date_entry.get_date())
-            dataframe = pd.DataFrame([var], columns=['Name', 'Status', 'Agree', 'Date'] )
+            dataframe = pd.DataFrame([var], columns=['Name', 'Status', 'Agree', 'Date'])
             dataframe.to_csv('data.csv', header=None, index=False, mode='a')
             print(dataframe)
             print("SUBMITTED")
@@ -248,8 +219,10 @@ class user_page(ctk.CTkFrame):
 class welcome_page(ctk.CTkFrame):
     def __init__(self, *args, parent, controller, **kwargs):
         super().__init__(*args, **kwargs)
+        # Controller is the main frame, useful to use the up_frame method
         self.controller = controller
-        self.id = controller.id
+
+        # self.id = controller.id
 
         self.frame = ctk.CTkFrame(self, bg="blue")
         self.frame.grid(row=0, column=0, sticky="nsew")
