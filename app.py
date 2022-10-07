@@ -1,5 +1,5 @@
 import customtkinter as ctk
-import pages as pages
+import pages
 
 
 # Create the main window taking the properties of ctk object
