@@ -1,2 +1,2 @@
 # Attendance Management System
-For my first Python program I should create an Attedance Management System with a nice UI.
+Attedance Management System with an UI.
